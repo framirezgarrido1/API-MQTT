@@ -2,8 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose')
 
+
 var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://localhost:1883')
+var client  = mqtt.connect('mqtt://nodemcu-fer.ddns.net:1883')
 
 const Devices = require('./models/devices.js')
 
@@ -11,8 +12,21 @@ let productDevice
 
 const app = express();
 
+
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+// configurar cabeceras http
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+ 
+    next();
+});
+
 
 app.post('/api', function(req, res) {
 	res.send('Saludos desde express');
@@ -48,7 +62,7 @@ app.get('/api/device/:deviceId', function(req, res) {
 
 	Devices.findById(deviceId, (err, device ) => {
 		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
-		if (!device) return res.status(400).send({ message: `El ID del producto no existe` })
+		if (!device) return res.status(400).send({ message: `El ID del dispositivos no existe` })
 
 		res.status(200).send({ device })
 	})
@@ -87,7 +101,10 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 		//DeviceID
 		//StatusID
 
+		let now = new Date();
+
 		client.publish('esp32/status/', `${deviceId}-${req.params.status}`)
+		client.publish('esp32/status/', `${now}`)
 
 	})
 });
@@ -98,7 +115,7 @@ app.get('/api/devices', function(req, res) {
 
 	Devices.find((err, device ) => {
 		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
-		if (!device) return res.status(500).send({ message: `No existen productos` })
+		if (!device) return res.status(500).send({ message: `No existen dispositivos` })
 
 		res.status(200).send({ device })
 	})
