@@ -122,6 +122,19 @@ app.get('/api/devices', function(req, res) {
 
 });	
 
+// Mostrando todos los sensores de temperatura
+app.get('/api/temperature', function(req, res) {
+
+
+	Devices.find({type:"sensor-door"}, (err, device ) => {
+		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
+		if (!device) return res.status(400).send({ message: `El ID del dispositivos no existe` })
+
+		res.status(200).send({ device })
+	})
+
+});
+
 })
 
 mongoose.connect('mongodb://localhost:27017/storage_devices', (err, res) => {
