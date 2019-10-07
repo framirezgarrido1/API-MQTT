@@ -39,11 +39,17 @@ Status:
 Parametros
 
 "name"   > String
+
 "type"   > String
+
 "device" > String
+
 "pin"    > Number
+
 "status" > Number
-"topic"  > String
+
+"topic"  > String 
+
 
 -------------------
 
@@ -57,11 +63,19 @@ Parametros
 
 [PUT] `http://localhost:3002/api/device/:deviceId`
 
-"name"
-"type"
-"pin"
-"status"
-"topic"
+Parametros
+
+"name"   > String
+
+"type"   > String
+
+"device" > String
+
+"pin"    > Number
+
+"status" > Number
+
+"topic"  > String 
 
 
 -------------------
