@@ -92,4 +92,10 @@ Parametros
 
 [POST] `http://localhost:3002/api/temperature`
 
+-------------------
+
+### Delete registro:
+
+[DELETE] `http://localhost:3002/api/delete/:deviceId`
+
 
