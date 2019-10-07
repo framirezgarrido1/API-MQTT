@@ -36,6 +36,15 @@ Status:
 
 [POST] `http://localhost:3002/api/devices/write`
 
+Parametros
+
+"name"   > String
+"type"   > String
+"device" > String
+"pin"    > Number
+"status" > Number
+"topic"  > String
+
 -------------------
 
 ### Mostrando registro por ID:
@@ -48,11 +57,20 @@ Status:
 
 [PUT] `http://localhost:3002/api/device/:deviceId`
 
+"name"
+"type"
+"pin"
+"status"
+"topic"
+
+
 -------------------
 
 ### Actualizando status de registro por ID:
 
 [POST] `http://localhost:3002/api/update/:deviceId/:status`
+
+"status" > Number > 0 or 1
 
 -------------------
 
