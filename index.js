@@ -28,8 +28,20 @@ app.use((req, res, next) => {
 });
 
 
-app.post('/api', function(req, res) {
+app.get('/api', function(req, res) {
 	res.send('Saludos desde express');
+});	
+
+// Mostrando todos los registros
+app.get('/api/devices', function(req, res) {
+
+	Devices.find((err, device ) => {
+		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
+		if (!device) return res.status(500).send({ message: `No existen dispositivos` })
+
+		res.status(200).send({ device })
+	})
+
 });	
 
 // Creando nuevo device
@@ -96,6 +108,8 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 		res.status(200).send({ device })
 
 		console.log({ device })
+		console.log(device.topic)
+
 
 		//Publish in MQTT
 		//DeviceID
@@ -103,30 +117,18 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 
 		let now = new Date();
 
-		client.publish('esp32/status/', `${deviceId}-${req.params.status}`)
-		client.publish('esp32/status/', `${now}`)
+		client.publish(`${device.topic}`, `${deviceId}-${req.params.status}`)
+		client.publish(`${device.topic}`, `Fecha udpate > ${now}`)
 
 	})
 });
 
 
-// Mostrando todos los registros
-app.get('/api/devices', function(req, res) {
-
-	Devices.find((err, device ) => {
-		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
-		if (!device) return res.status(500).send({ message: `No existen dispositivos` })
-
-		res.status(200).send({ device })
-	})
-
-});	
-
 // Mostrando todos los sensores de temperatura
 app.get('/api/temperature', function(req, res) {
 
 
-	Devices.find({type:"sensor-door"}, (err, device ) => {
+	Devices.find({type:"temperature"}, (err, device ) => {
 		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
 		if (!device) return res.status(400).send({ message: `El ID del dispositivos no existe` })
 
@@ -137,7 +139,7 @@ app.get('/api/temperature', function(req, res) {
 
 })
 
-mongoose.connect('mongodb://localhost:27017/storage_devices', (err, res) => {
+mongoose.connect("mongodb://localhost:27017/storage_devices", (err, res) => {
   if (err) throw err 
   console.log('Conexion MongoDB OK')
 
