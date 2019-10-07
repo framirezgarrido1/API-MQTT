@@ -1,46 +1,31 @@
 <html>
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>x.Home</title>
 </head>
 
 <body onload="traer()">
-    <div class="container my-5 text-left">
-        <h1>Administrador x.Home</h1>
-        <h4>Administra y controla los componentes conectados a x.Home</h4>
-        <!--<button class="btn btn-danger w-100" onclick="traer()">Obtener</button>-->
-        <div class="mt-5 vertical-align-center" id="contenido">
-            <table class="table text-left table-striped">
-                <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Topic MQTT</th>
-                    <th scope="col">Id</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="table">
-                </tbody>
-                    </table>
-            
-        </div>
+    <!-- card -->
+<div class="container">
+      <h1 class="pt-4">x.Home</h1>
+      <h5 class="pb-2"> Administrador de dispositivos</h5>
+  <div class="card-columns" id="card-devices">
+      <!-- load cards -->
     </div>
+</div>
+
+
+    <!-- End Cards -->  
 
     <script>
-        var contenido = document.querySelector('#table')
+        var contenido = document.querySelector('#card-devices')
         function traer() {
-            fetch('http://localhost:3002/api/devices', {
+            fetch('http://ec2-3-17-162-210.us-east-2.compute.amazonaws.com:3002/api/devices', {
                 method: 'GET', // or 'PUT'
                 //body: JSON.stringify(data), // data can be `string` or {object}!
                 headers:{
@@ -64,18 +49,13 @@
                     }
 
                     contenido.innerHTML += `
-                        <tr>
-                          <th scope="row" class="align-middle">${i}</th>
-                          <td class="align-middle">${data.device[i].name}</td>
-                          <td class="align-middle">${statusobtenido}</td>
-                          <td class="align-middle">${data.device[i].type}</td>
-                          <td class="align-middle">${data.device[i].topic}</td>
-                          <td class="align-middle">${data.device[i]._id}</td>
-                          <td class="align-middle">
-                            <a class="btn btn-outline-success" href="#" onclick="put('${data.device[i]._id}', '1')" role="button">ON</a>
-                            <a class="btn btn-outline-secondary" href="#" onclick="put('${data.device[i]._id}', '0')" role="button">OFF</a>
-                          </td>
-                        </tr>
+                            <div class="card">
+                                <div class="card-body">
+                                      <h5 class="card-title">${data.device[i].device} > ${data.device[i].name}</h5>
+                                     <p class="card-text">${data.device[i]._id}</p>
+                                  <p>${statusobtenido}</p>
+        </div>
+                            </div>
                     `
                 }
             })  
@@ -83,7 +63,7 @@
 
         function put(idON, status){
 
-            var urlbaseon = "http://localhost:3002/api/update/";
+            var urlbaseon = "http://ec2-3-17-162-210.us-east-2.compute.amazonaws.com:3002/api/update/";
             var slash = "/";
             var urlput = urlbaseon+idON+slash+status;
 
@@ -106,11 +86,8 @@
 
         }
 
-        
-
     </script>
 
 
 </body>
-
 </html>

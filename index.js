@@ -137,6 +137,26 @@ app.get('/api/temperature', function(req, res) {
 
 });
 
+
+// Eliminar registro por ID
+app.delete('/api/delete/:deviceId', function(req, res) {
+
+	let deviceId = req.params.deviceId
+
+	Devices.findByIdAndRemove(deviceId, (err, device ) => {
+		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
+		if (!device) return res.status(400).send({ message: `El ID del dispositivos no existe` })
+
+		const response = {
+			message: "Device eliminado con exito"
+		}
+
+		res.status(200).send("Device eliminado con exito")
+	})
+
+});
+
+
 })
 
 mongoose.connect("mongodb://localhost:27017/storage_devices", (err, res) => {
