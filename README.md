@@ -25,7 +25,9 @@ Status:
   "type": "light",
   "status": 0,
   "topic": "lights",
-  "__v": 0
+  "__v": 0,
+  "pin": 8,
+  "device": esp8266-001
   }
 ```
 -------------------
