@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 
 
 var mqtt = require('mqtt')
+
+// Public Broker
 var client  = mqtt.connect('mqtt://broker.hivemq.com:1883')
 
 const Devices = require('./models/devices.js')
