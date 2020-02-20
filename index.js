@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 
 var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://nodemcu-fer.ddns.net:1883')
+var client  = mqtt.connect('mqtt://broker.hivemq.com:1883')
 
 const Devices = require('./models/devices.js')
 
