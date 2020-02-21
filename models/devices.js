@@ -9,7 +9,10 @@ const DevicesSchema = Schema ({
 	device: String,
 	pin: Number,
 	status: Number,
-	topic: String
+	topic: String, 
+	timeon: String,
+	timeoff: String,
+	days: String
 })
 
 module.exports = mongoose.model('Devices', DevicesSchema)
