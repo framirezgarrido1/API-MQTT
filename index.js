@@ -123,6 +123,7 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 		let now = new Date();
 
 		client.publish(`${device.topic}${device.device}`, "--------------------------------------------------------")
+		client.publish(`${device.topic}${device.device}`, `Topic > ${device.topic}`)
 		client.publish(`${device.topic}${device.device}`, `${deviceId}-${req.params.status}`)
 		client.publish(`${device.topic}${device.device}`, `${deviceId} > Digital PIN ${device.pin} > status: ${req.params.status}`)
 		client.publish(`${device.topic}${device.device}`, `Fecha udpate > ${now}`)
