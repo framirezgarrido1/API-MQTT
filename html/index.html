@@ -1,0 +1,179 @@
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>x.Home</title>
+</head>
+
+<body onload="traer()">
+    <!-- card -->
+<div class="container">
+    <h1 class="pt-4">x.Home</h1>
+    <h5 class="pb-4"> Administrador de dispositivos</h5>
+    <div class="row pb-4">
+        <div class="col">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">  Launch demo modal</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card-columns col-12" id="card-devices">
+            <!-- load cards -->
+        </div>
+      
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form enctype="application/x-www-form-urlencoded" method="POST" action="http://ec2-3-17-162-210.us-east-2.compute.amazonaws.com:3002/api/device/write">
+                <div class="form-group">
+                  <label for="NameDevice">Nombre</label>
+                  <input type="text" class="form-control" name="name" placeholder="Ejemplo GPIO-1">
+                </div>
+                <div class="form-group">
+                  <label for="TypeDevice">Tipo</label>
+                    <select class="custom-select mr-sm-2" name="type">
+                        <option selected>Seleccione tipo de PIN</option>
+                        <option value="Digital OUT">Digital OUT pin</option>
+                        <option value="Digital IN">Digital IN pin</option>
+                        <option value="Analogue OUT">Analogue OUT pin</option>
+                        <option value="Analogue IN">Analogue IN pin</option>
+                    </select> 
+                </div>
+                <div class="form-group">
+                    <label for="DeviceDevice">Dipositivo</label>
+                    <input type="text" class="form-control" name="device" placeholder="Ejemplo ESP8266">
+                </div>
+                <div class="form-group">
+                    <label for="PinDevice">PIN Digital</label>
+                    <input type="text" class="form-control" name="pin" placeholder="PIN Digital">
+                </div>
+                <div class="form-group">
+                    <label for="StatusDevice">Status incial</label>
+                    <input type="number" class="form-control" name="status" placeholder="Status > 0 o 1">
+                </div>
+                <div class="form-group">
+                    <label for="TopicDevice">Nombre Topic</label>
+                    <input type="text" class="form-control" name="topic" placeholder="Topic MQTT">
+                </div>
+                <div class="form-group">
+                    <label for="TimeOnDevice">Hora encendido automático</label>
+                    <input type="text" class="form-control" name="timeon" placeholder="22:30">
+                </div>
+                <div class="form-group">
+                    <label for="TimeOffDevice">Hora apagado automático</label>
+                    <input type="text" class="form-control" name="timeoff" placeholder="23:30">
+                </div>
+                <div class="form-group">
+                    <label for="DaysDevice">Dias automaticos</label>
+                    <select class="custom-select mr-sm-2" name="days">
+                        <option selected>Seleccione los dias</option>
+                        <option value="all">Todos los dias</option>
+                        <option value="week">Lunes a viernes</option>
+                        <option value="none">Sin automatizar</option>
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-primary" data-dismiss="modal">
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>            
+
+    <script>
+        var contenido = document.querySelector('#card-devices')
+        function traer() {
+
+
+            fetch('http://ec2-3-17-162-210.us-east-2.compute.amazonaws.com:3002/api/devices', {
+                method: 'GET', // or 'PUT'
+                //body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                    'Content-Type': 'application/json'
+                    }   
+                })
+
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.device)
+
+                var i;
+
+                contenido.innerHTML = '';
+
+                for (i = 0; i < data.device.length; i++) { 
+                    if (data.device[i].status == 1 ) {
+                        var statusobtenido = `<button type="button" class="btn btn-success" onclick="put('${data.device[i]._id}', '/0')">ON</button>`
+                    }
+
+                    else {
+                        var statusobtenido = `<button type="button" class="btn btn-dark" onclick="put('${data.device[i]._id}', '/1')">OFF</button>`;
+                    }
+
+                    contenido.innerHTML += `
+                            <div class="card">
+                                <div class="card-body">
+                                      <h5 class="card-title">${data.device[i].type} > ${data.device[i].name}</h5>
+                                     <p class="card-text">${data.device[i]._id}</p>
+                                  <p>${statusobtenido}</p>
+        </div>
+                            </div>
+                    `
+                }
+            })  
+        }
+
+        function put(idON, status){
+
+            var urlbaseon = "http://ec2-3-17-162-210.us-east-2.compute.amazonaws.com:3002/api/update/";
+            var urlput = urlbaseon+idON+status;
+
+            console.log(urlput)
+
+            fetch(urlput, {
+                method: 'PUT', // or 'PUT'
+                //body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                    'Content-Type': 'application/json'
+                    } 
+                })
+
+            .then((response) => {
+                if (response.ok) {
+                    //return location.reload();
+                    traer();
+                }
+
+            })
+
+        }
+        
+
+    </script>
+
+
+
+     <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
