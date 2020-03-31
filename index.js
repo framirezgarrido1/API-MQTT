@@ -57,6 +57,7 @@ app.post('/api/device/write', function(req, res) {
   devices.pin = req.body.pin
   devices.status = req.body.status
   devices.topic = req.body.topic
+  devices.device = req.body.device
   devices.timeon = req.body.timeon
   devices.timeoff = req.body.timeoff
   devices.days = req.body.days
