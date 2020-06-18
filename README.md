@@ -20,15 +20,18 @@ Status:
 
 ```javascript 
   {
-  "_id": "5d435387e2ca495655cf4d9d",
-  "name": "light-003",
-  "type": "light",
-  "status": 0,
-  "topic": "lights",
-  "__v": 0,
-  "pin": 8,
-  "device": esp8266-001
-  }
+      "_id": "5e87a6501df56d53253e6556",
+      "name": "Regador Jardín",
+      "type": "plant",
+      "pin": 14,
+      "status": 1,
+      "topic": "costanera1980/devices/ESP32/ESP32-001/",
+      "device": "ESP32",
+      "timeon": "10:00",
+      "timeoff": "11:30",
+      "days": "all",
+      "__v": 0
+   }
 ```
 -------------------
 
@@ -40,15 +43,21 @@ Parametros
 
 "name"   > String
 
-"type"   > String
-
-"device" > String
+"type"   > String   [gpio,temperature,plant,light]
 
 "pin"    > Number
 
-"status" > Number
+"status" > Number   [0,1]
 
-"topic"  > String 
+"topic"  > String
+
+"device" > String
+
+"timeon" > String
+
+"timeoff"> String
+
+"days"   > String   [all,week,none]
 
 
 -------------------
@@ -65,19 +74,6 @@ Parametros
 
 Parametros
 
-"name"   > String
-
-"type"   > String
-
-"device" > String
-
-"pin"    > Number
-
-"status" > Number
-
-"topic"  > String 
-
-
 -------------------
 
 ### Actualizando status de registro por ID:
@@ -90,7 +86,7 @@ Parametros
 
 ### Obteniendo datos de Temperatura:
 
-[POST] `http://localhost:3002/api/temperature`
+[GET] `http://localhost:3002/api/temperature`
 
 -------------------
 
