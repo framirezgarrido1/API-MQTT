@@ -98,4 +98,4 @@ Parametros
 
 ### Diagrama de comunicación
 
-![Screenshot](diagrama.png)
+![Screenshot](diagrama-services.png)
