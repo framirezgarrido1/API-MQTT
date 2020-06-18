@@ -94,4 +94,8 @@ Parametros
 
 [DELETE] `http://localhost:3002/api/delete/:deviceId`
 
+-------------------
 
+### Diagrama de comunicación
+
+![Screenshot](diagrama.png)
