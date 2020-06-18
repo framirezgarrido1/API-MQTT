@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 
 
 app.get('/api', function(req, res) {
-	res.send('Saludos desde express');
+	res.send('Hi from x.Home');
 });	
 
 // Mostrando todos los registros
