@@ -115,7 +115,8 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 
 		console.log({ device })
 		console.log(device.topic)
-
+		const message = `${device.pin}-${req.params.status}-${device.type}`
+		console.log(message)
 
 		//Publish in MQTT
 		//DeviceID
@@ -125,7 +126,7 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 
 		//client.publish(`${device.topic}${device.device}`, "--------------------------------------------------------")
 		//client.publish(`${device.topic}${device.device}`, `Publish in topic > ${device.topic}${device.device}`)
-		client.publish(`${device.topic}`, `${device.pin}-${req.params.status}-${device.type}`)
+		client.publish(device.topic, message)
 		//client.publish(`${device.topic}${device.device}`, `${deviceId} > Digital PIN ${device.pin} > status: ${req.params.status}`)
 		//client.publish(`${device.topic}${device.device}`, `Fecha udpate > ${now}`)
 
@@ -168,7 +169,27 @@ app.delete('/api/delete/:deviceId', function(req, res) {
 
 })
 
-mongoose.connect("mongodb://localhost:27017/storage_devices", (err, res) => {
+const optionsAuth = {
+	"useNewUrlParser": true,
+    "auth": { "authSource": "admin" },
+    "user": "root",
+    "pass": "myS3cur4p*ss",
+}
+
+const options = {
+	"useNewUrlParser": true
+}
+
+const urlOptions = {
+	host: "localhost",
+	port: 27017,
+	database: "storage_devices",
+}
+
+const url = `mongodb://${urlOptions.host}:${urlOptions.port}/${urlOptions.database}`
+
+
+mongoose.connect(url, optionsAuth, (err) => {
   if (err) throw err 
   console.log('Conexion MongoDB OK')
 
