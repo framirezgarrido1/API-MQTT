@@ -134,7 +134,7 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 
 
 // Mostrando todos los sensores de temperatura
-app.get('/api/devices/stype=:type', function(req, res) {
+app.get('/api/devices/type=:type', function(req, res) {
 
 	let type = req.params.type
 
