@@ -13,7 +13,7 @@ const DevicesSchema = Schema ({
 	timeon: String,
 	timeoff: String,
 	days: String,
-	creationDate: { type: Date, default: Date.now() }
+	creationDate: Date.now
 })
 
 module.exports = mongoose.model('Devices', DevicesSchema)
