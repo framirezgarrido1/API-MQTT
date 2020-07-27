@@ -124,7 +124,6 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 		let now = new Date();
 
 		//Publicando en TOPIC guardado en el objeto
-		
 		client.publish(`${device.topic}`, `${device.pin}-${req.params.status}-${device.type}`)
 
 	})
