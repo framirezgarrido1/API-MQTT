@@ -12,7 +12,8 @@ const DevicesSchema = Schema ({
 	topic: String, 
 	timeon: String,
 	timeoff: String,
-	days: String
+	days: String,
+	creationDate: { type: Date, default: Date.now() }
 })
 
 module.exports = mongoose.model('Devices', DevicesSchema)
