@@ -116,6 +116,8 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 		console.log({ device })
 		console.log(device.topic)
 
+		const message = `${device.pin}-${req.params.status}-${device.type}`
+
 
 		//Publish in MQTT
 		//DeviceID
@@ -124,7 +126,7 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 		let now = new Date();
 
 		//Publicando en TOPIC guardado en el objeto
-		client.publish(`${device.topic}`, `${device.pin}-${req.params.status}-${device.type}`)
+		client.publish(`${device.topic}`, message)
 
 	})
 });
