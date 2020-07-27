@@ -123,11 +123,9 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 
 		let now = new Date();
 
-		//client.publish(`${device.topic}${device.device}`, "--------------------------------------------------------")
-		//client.publish(`${device.topic}${device.device}`, `Publish in topic > ${device.topic}${device.device}`)
+		//Publicando en TOPIC guardado en el objeto
+		
 		client.publish(`${device.topic}`, `${device.pin}-${req.params.status}-${device.type}`)
-		//client.publish(`${device.topic}${device.device}`, `${deviceId} > Digital PIN ${device.pin} > status: ${req.params.status}`)
-		//client.publish(`${device.topic}${device.device}`, `Fecha udpate > ${now}`)
 
 	})
 });
