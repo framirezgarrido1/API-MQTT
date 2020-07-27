@@ -134,10 +134,11 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 
 
 // Mostrando todos los sensores de temperatura
-app.get('/api/temperature', function(req, res) {
+app.get('/api/type/:type', function(req, res) {
 
+	let type = req.params.type
 
-	Devices.find({type:"temperature"}, (err, device ) => {
+	Devices.find({type:type}, (err, device ) => {
 		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
 		if (!device) return res.status(400).send({ message: `El ID del dispositivos no existe` })
 
