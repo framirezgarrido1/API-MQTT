@@ -172,7 +172,7 @@ app.put('/api/publish/:deviceId/:data', function(req, res) {
 	let update = JSON.parse(req.params.data);
 
 
-	Devices.find({id_device:deviceId}, { data: `${req.params.data}`}, (err, device ) => {
+	Devices.findOneAndUpdate({id_device:deviceId}, { data: `${req.params.data}`}, (err, device ) => {
 		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
 
 		res.status(200).send({ device })
