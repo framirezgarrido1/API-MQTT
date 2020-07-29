@@ -61,8 +61,10 @@ app.post('/api/device/write', function(req, res) {
   devices.timeon = req.body.timeon
   devices.timeoff = req.body.timeoff
   devices.days = req.body.days
-  devices.creationDate = new Date()
   devices.data = null
+  devices.id_device = req.body.id_device
+  devices.creationDate = new Date()
+  
 
   devices.save((err, productStored) => {
     if (err)
@@ -141,6 +143,36 @@ app.put('/api/data/:deviceId/:data', function(req, res) {
 
 
 	Devices.findByIdAndUpdate(deviceId, { data: `${req.params.data}`}, (err, device ) => {
+		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
+
+		res.status(200).send({ device })
+
+		console.log({ device })
+		console.log(device.topic)
+
+		const message = `${device.pin}-${req.params.status}-${device.type}`
+
+
+		//Publish in MQTT
+		//DeviceID
+		//StatusID
+
+		let now = new Date();
+
+		//Publicando en TOPIC guardado en el objeto
+		client.publish(`${device.topic}`, message)
+
+	})
+});
+
+// Actualizado DATA in devices for ID_Device 
+app.put('/api/publish/:deviceId/:data', function(req, res) {
+
+	let deviceId = req.params.deviceId
+	let update = JSON.parse(req.params.data);
+
+
+	Devices.find({id_device:deviceId}, { data: `${req.params.data}`}, (err, device ) => {
 		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
 
 		res.status(200).send({ device })
