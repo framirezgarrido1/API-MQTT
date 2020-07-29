@@ -62,6 +62,7 @@ app.post('/api/device/write', function(req, res) {
   devices.timeoff = req.body.timeoff
   devices.days = req.body.days
   devices.creationDate = new Date()
+  devices.data = null
 
   devices.save((err, productStored) => {
     if (err)

@@ -13,6 +13,7 @@ const DevicesSchema = Schema ({
 	timeon: String,
 	timeoff: String,
 	days: String,
+	data: String,
 	creationDate: Date
 })
 
