@@ -134,7 +134,7 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 });
 
 // Actualizado DATA in devices for ID 
-app.put('/api/update/:deviceId/:data', function(req, res) {
+app.put('/api/data/:deviceId/:data', function(req, res) {
 
 	let deviceId = req.params.deviceId
 	let update = JSON.parse(req.params.data);
