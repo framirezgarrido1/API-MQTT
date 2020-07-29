@@ -133,6 +133,36 @@ app.put('/api/update/:deviceId/:status', function(req, res) {
 	})
 });
 
+// Actualizado DATA in devices for ID 
+app.put('/api/update/:deviceId/:data', function(req, res) {
+
+	let deviceId = req.params.deviceId
+	let update = JSON.parse(req.params.data);
+
+
+	Devices.findByIdAndUpdate(deviceId, { data: `${req.params.data}`}, (err, device ) => {
+		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
+
+		res.status(200).send({ device })
+
+		console.log({ device })
+		console.log(device.topic)
+
+		const message = `${device.pin}-${req.params.status}-${device.type}`
+
+
+		//Publish in MQTT
+		//DeviceID
+		//StatusID
+
+		let now = new Date();
+
+		//Publicando en TOPIC guardado en el objeto
+		client.publish(`${device.topic}`, message)
+
+	})
+});
+
 
 // Mostrando todos los sensores de temperatura
 app.get('/api/devices/type=:type', function(req, res) {
