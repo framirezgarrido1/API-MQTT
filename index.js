@@ -41,7 +41,7 @@ app.get('/api/devices', function(req, res) {
 		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
 		if (!device) return res.status(500).send({ message: `No existen dispositivos` })
 
-		res.status(200).send({ device })
+		res.status(200).send(device)
 	})
 
 });	
