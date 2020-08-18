@@ -239,7 +239,7 @@ mongoose.connect("mongodb://localhost:27017/storage_devices", (err, res) => {
 	key: fs.readFileSync('key_2.pem'),
 	cert: fs.readFileSync('cert_2.pem')
   }, app)
-  .listen(2053, function () {
+  .listen(3002, function () {
 	console.log('Example app listening on port 3000! Go to https://localhost:3002/')
   })
 
