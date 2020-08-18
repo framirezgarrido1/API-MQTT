@@ -1,6 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose')
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+	key: fs.readFileSync('key.pem'),
+	cert: fs.readFileSync('cert.pem')
+  };
 
 
 var mqtt = require('mqtt')
@@ -13,8 +20,6 @@ const Devices = require('./models/devices.js')
 let productDevice
 
 const app = express();
-
-
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -236,8 +241,9 @@ mongoose.connect("mongodb://localhost:27017/storage_devices", (err, res) => {
   if (err) throw err 
   console.log('Conexion MongoDB OK')
 
-  app.listen(80, hostname, () => {
-    console.log("El servidor está inicializado en el puerto 3002");
-  })
+  https.createServer(options, function (req, res) {
+	res.writeHead(200);
+	res.end("hello world\n");
+  }).listen(8000);
 
 })
