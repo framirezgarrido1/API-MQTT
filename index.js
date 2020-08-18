@@ -236,7 +236,7 @@ mongoose.connect("mongodb://localhost:27017/storage_devices", (err, res) => {
   if (err) throw err 
   console.log('Conexion MongoDB OK')
 
-  app.listen(3002, () => {
+  app.listen(3002, hostname, () => {
     console.log("El servidor está inicializado en el puerto 3002");
   })
 
