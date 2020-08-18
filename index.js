@@ -4,12 +4,6 @@ const mongoose = require('mongoose')
 const https = require('https');
 const fs = require('fs');
 
-const options = {
-	key: fs.readFileSync('key_2.pem'),
-	cert: fs.readFileSync('cert_2.pem')
-  };
-
-
 var mqtt = require('mqtt')
 
 // Public Broker
@@ -241,9 +235,12 @@ mongoose.connect("mongodb://localhost:27017/storage_devices", (err, res) => {
   if (err) throw err 
   console.log('Conexion MongoDB OK')
 
-  https.createServer(options, function (req, res) {
-	res.writeHead(200);
-	res.end("hello world\n");
-  }).listen(8000);
+  https.createServer({
+	key: fs.readFileSync('key_2.pem'),
+	cert: fs.readFileSync('cert_2.pem')
+  }, app)
+  .listen(3002, function () {
+	console.log('Example app listening on port 3000! Go to https://localhost:3002/')
+  })
 
 })
