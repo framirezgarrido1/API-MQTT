@@ -204,7 +204,7 @@ app.get('/api/devices/type=:type', function(req, res) {
 		if (err) return res.status(500).send({ message: `Error al realizar la petición` })
 		if (!device) return res.status(400).send({ message: `El ID del dispositivos no existe` })
 
-		res.status(200).send({ device })
+		res.status(200).send(device)
 	})
 
 });
